@@ -146,32 +146,35 @@ export default function MenuPage() {
             </section>
 
             {/* Sticky Navigation */}
-            <div className="sticky top-[104px] md:top-[120px] z-40 bg-matte-black/70 backdrop-blur-md border-y border-white/5 py-4 mb-12 shadow-2xl">
-                <div className="container mx-auto px-6 overflow-x-auto no-scrollbar">
-                    <div className="flex items-center gap-4 md:gap-8 min-w-max">
-                        {menuCategories.map((category) => (
-                            <Link
-                                key={category.id}
-                                href={`#${category.id}`}
-                                onClick={() => setActiveCategory(category.id)}
-                                className={`flex items-center gap-2 text-sm font-black uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-normal border ${activeCategory === category.id
-                                    ? "bg-electric-yellow text-black border-electric-yellow shadow-[0_0_15px_rgba(242,223,13,0.4)]"
-                                    : "bg-transparent text-white/50 border-transparent hover:text-white hover:bg-white/5"
-                                    }`}
+            <div className="sticky top-[108px] md:top-[128px] z-40 bg-matte-black/80 backdrop-blur-xl border-y border-white/10 py-5 mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                <div className="container mx-auto px-6">
+                    <div className="overflow-x-auto no-scrollbar pb-1">
+                        <div className="flex items-center justify-start md:justify-center gap-4 md:gap-12 min-w-max md:min-w-full">
+                            {menuCategories.map((category) => (
+                                <Link
+                                    key={category.id}
+                                    href={`#${category.id}`}
+                                    onClick={() => setActiveCategory(category.id)}
+                                    className={`flex items-center gap-3 text-xs md:text-sm font-black uppercase tracking-[0.2em] px-5 py-2.5 rounded-full transition-all duration-300 border ${activeCategory === category.id
+                                        ? "bg-electric-yellow text-black border-electric-yellow shadow-[0_0_20px_rgba(242,223,13,0.3)] scale-105"
+                                        : "bg-white/5 text-white/40 border-white/5 hover:text-white hover:bg-white/10 hover:border-white/20"
+                                        }`}
+                                >
+                                    <category.icon className="w-4 h-4" />
+                                    <span>{category.title}</span>
+                                </Link>
+                            ))}
+                            <div className="h-6 w-[1px] bg-white/10 mx-2 hidden md:block" />
+                            <a
+                                href="/menu.png"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3 text-xs md:text-sm font-black uppercase tracking-[0.2em] px-5 py-2.5 rounded-full border border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all group shrink-0"
                             >
-                                <category.icon className="w-4 h-4" />
-                                {category.title}
-                            </Link>
-                        ))}
-                        <a
-                            href="/menu.png"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm font-black uppercase tracking-widest px-4 py-2 rounded-full border border-white/20 text-white hover:bg-white/10 ml-4 group"
-                        >
-                            <Download className="w-4 h-4 group-hover:animate-bounce" />
-                            Full PDF
-                        </a>
+                                <Download className="w-4 h-4 group-hover:animate-bounce text-electric-yellow" />
+                                <span>PDF MENU</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
