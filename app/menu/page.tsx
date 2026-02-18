@@ -1,6 +1,4 @@
 "use client";
-// Last synced: 2026-02-18
-
 
 import { motion, useScroll, useSpring } from "framer-motion";
 import { Download, Utensils, UtensilsCrossed, Flame, Coffee, Info, Plus } from "lucide-react";
