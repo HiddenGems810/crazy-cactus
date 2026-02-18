@@ -38,17 +38,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <ClerkProvider>
-      <html lang="en" className="dark">
-        <body
-          className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased bg-[#0a0a0a] text-white`}
-        >
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
-      </html>
-    </ClerkProvider>
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+  const content = (
+    <html lang="en" className="dark">
+      <body
+        className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased bg-[#0a0a0a] text-white`}
+      >
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
+    </html>
   );
+
+  if (publishableKey) {
+    return <ClerkProvider publishableKey={publishableKey}>{content}</ClerkProvider>;
+  }
+
+  return content;
 }

@@ -90,19 +90,23 @@ export default function Navbar() {
                         >
                             Portal
                         </Link>
-                        <SignedOut>
-                            <SignInButton mode="modal">
-                                <button
-                                    className="hidden md:block text-[10px] font-bold px-4 py-2 rounded-full border border-white/20 hover:border-white transition-all"
-                                    aria-label="Sign in to your account"
-                                >
-                                    SIGN IN
-                                </button>
-                            </SignInButton>
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton />
-                        </SignedIn>
+                        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && (
+                            <>
+                                <SignedOut>
+                                    <SignInButton mode="modal">
+                                        <button
+                                            className="hidden md:block text-[10px] font-bold px-4 py-2 rounded-full border border-white/20 hover:border-white transition-all"
+                                            aria-label="Sign in to your account"
+                                        >
+                                            SIGN IN
+                                        </button>
+                                    </SignInButton>
+                                </SignedOut>
+                                <SignedIn>
+                                    <UserButton />
+                                </SignedIn>
+                            </>
+                        )}
 
                         <Link
                             href="/cart"
