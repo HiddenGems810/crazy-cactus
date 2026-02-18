@@ -53,14 +53,29 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
                 <div className="p-6 border-t border-white/5 bg-black/20">
                     <div className="flex items-center gap-4 p-4 glass-card border-white/5">
-                        <UserButton appearance={{ elements: { userButtonAvatarBox: "w-10 h-10" } }} />
-                        <div className="overflow-hidden">
-                            <p className="text-sm font-black truncate">Ger'Quia Abner</p>
-                            <div className="flex items-center gap-1.5 text-[9px] text-lime-green font-black uppercase tracking-[0.1em]">
-                                <ShieldCheck className="w-3 h-3" />
-                                Superuser
-                            </div>
-                        </div>
+                        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
+                            <>
+                                <UserButton appearance={{ elements: { userButtonAvatarBox: "w-10 h-10" } }} />
+                                <div className="overflow-hidden">
+                                    <p className="text-sm font-black truncate">Ger'Quia Abner</p>
+                                    <div className="flex items-center gap-1.5 text-[9px] text-lime-green font-black uppercase tracking-[0.1em]">
+                                        <ShieldCheck className="w-3 h-3" />
+                                        Superuser
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black">GA</div>
+                                <div className="overflow-hidden">
+                                    <p className="text-sm font-black truncate">Demo Admin</p>
+                                    <div className="flex items-center gap-1.5 text-[9px] text-white/20 font-black uppercase tracking-[0.1em]">
+                                        <ShieldCheck className="w-3 h-3" />
+                                        Locked
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 
