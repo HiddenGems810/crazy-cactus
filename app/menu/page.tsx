@@ -88,7 +88,7 @@ const menuCategories = [
 ];
 
 export default function MenuPage() {
-    const { addItem } = useCartStore();
+    const { addItem, items } = useCartStore();
     const [activeCategory, setActiveCategory] = useState(menuCategories[0].id);
 
     useEffect(() => {
@@ -251,20 +251,42 @@ export default function MenuPage() {
                                                 {item.price}
                                             </span>
 
-                                            {/* Circular Add Button */}
-                                            <button
-                                                onClick={() => addItem({
-                                                    id: `${category.id}-${itemIdx}`,
-                                                    name: item.name,
-                                                    price: item.price,
-                                                    quantity: 1,
-                                                    description: item.description
-                                                })}
-                                                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center text-white/50 bg-white/5 hover:bg-electric-yellow hover:text-black hover:border-electric-yellow transition-all duration-300 group/btn shadow-lg"
-                                                aria-label={`Add ${item.name} to order`}
-                                            >
-                                                <Plus className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover/btn:rotate-90 stroke-[3px]" />
-                                            </button>
+                                            {/* Circular Add Button with Quantity Badge */}
+                                            <div className="relative">
+                                                {(() => {
+                                                    const cartItem = items.find(i => i.id === `${category.id}-${itemIdx}`);
+                                                    const quantity = cartItem?.quantity || 0;
+                                                    return (
+                                                        <>
+                                                            {quantity > 0 && (
+                                                                <motion.span
+                                                                    initial={{ scale: 0 }}
+                                                                    animate={{ scale: 1 }}
+                                                                    className="absolute -top-2 -right-2 w-6 h-6 bg-electric-yellow text-black text-[10px] font-black rounded-full flex items-center justify-center ring-4 ring-matte-black z-10"
+                                                                >
+                                                                    {quantity}
+                                                                </motion.span>
+                                                            )}
+                                                            <button
+                                                                onClick={() => addItem({
+                                                                    id: `${category.id}-${itemIdx}`,
+                                                                    name: item.name,
+                                                                    price: item.price,
+                                                                    quantity: 1,
+                                                                    description: item.description
+                                                                })}
+                                                                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-300 group/btn shadow-lg ${quantity > 0
+                                                                    ? "bg-electric-yellow text-black border-electric-yellow"
+                                                                    : "text-white/50 bg-white/5 border-white/20 hover:bg-electric-yellow hover:text-black hover:border-electric-yellow"
+                                                                    }`}
+                                                                aria-label={`Add ${item.name} to order`}
+                                                            >
+                                                                <Plus className={`w-5 h-5 md:w-6 md:h-6 transition-transform group-hover/btn:rotate-90 stroke-[3px] ${quantity > 0 ? "rotate-90" : ""}`} />
+                                                            </button>
+                                                        </>
+                                                    );
+                                                })()}
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

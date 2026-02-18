@@ -63,7 +63,10 @@ export default function MenuGrid() {
 
                 <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8 lg:gap-10 md:pb-0 md:overflow-visible scrollbar-hide">
                     {dishes.map((dish, idx) => {
-                        const { addItem } = useCartStore();
+                        const { addItem, items } = useCartStore();
+                        const cartItem = items.find(i => i.id === `fav-${dish.id}`);
+                        const quantity = cartItem?.quantity || 0;
+
                         return (
                             <motion.div
                                 key={dish.id}
@@ -92,7 +95,7 @@ export default function MenuGrid() {
 
                                 <div className="p-6 relative z-10">
                                     <div className="flex justify-between items-start mb-3">
-                                        <h3 className="text-xl font-black leading-tight tracking-tight text-white group-hover:text-electric-yellow transition-colors">
+                                        <h3 className="text-xl font-black leading-tight tracking-tight text-white group-hover:text-electric-yellow transition-colors text-ellipsis overflow-hidden">
                                             {dish.title}
                                         </h3>
                                         <span className="text-lg font-black text-electric-yellow tabular-nums">
@@ -111,11 +114,14 @@ export default function MenuGrid() {
                                             quantity: 1,
                                             description: dish.description
                                         })}
-                                        className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-white/10 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-electric-yellow hover:text-black hover:border-electric-yellow transition-all duration-300 min-h-[48px] active:scale-95"
+                                        className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl border text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 min-h-[48px] active:scale-95 ${quantity > 0
+                                                ? "bg-electric-yellow text-black border-electric-yellow shadow-[0_0_15px_rgba(242,223,13,0.2)]"
+                                                : "bg-white/10 border-white/10 text-white hover:bg-white/20 hover:border-white/30"
+                                            }`}
                                         aria-label={`Add ${dish.title} to your order`}
                                     >
-                                        <Plus className="w-4 h-4" />
-                                        Quick Add
+                                        <Plus className={`w-4 h-4 transition-transform duration-300 ${quantity > 0 ? "rotate-90" : ""}`} />
+                                        {quantity > 0 ? `In Cart (${quantity})` : "Quick Add"}
                                     </button>
                                 </div>
                             </motion.div>
