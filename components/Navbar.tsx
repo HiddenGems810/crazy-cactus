@@ -8,8 +8,10 @@ import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import VIPModal from "@/components/VIPModal";
+import { useCartStore } from "@/lib/store/useCartStore";
 
 export default function Navbar() {
+    const { toggleCart, items } = useCartStore();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isVIPModalOpen, setIsVIPModalOpen] = useState(false);
@@ -108,14 +110,18 @@ export default function Navbar() {
                             </>
                         )}
 
-                        <Link
-                            href="/cart"
+                        <button
+                            onClick={toggleCart}
                             className="relative p-3 hover:bg-white/5 rounded-full transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
                             aria-label="View Shopping Cart"
                         >
                             <ShoppingCart className="w-5 h-5" />
-                            <span className="absolute top-2 right-2 w-2 h-2 bg-electric-yellow rounded-full ring-2 ring-black" />
-                        </Link>
+                            {items.length > 0 && (
+                                <span className="absolute top-2 right-2 w-4 h-4 bg-electric-yellow text-black text-[10px] font-black rounded-full flex items-center justify-center ring-2 ring-black">
+                                    {items.length}
+                                </span>
+                            )}
+                        </button>
 
                         <button
                             className="md:hidden p-3 text-white hover:bg-white/5 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"

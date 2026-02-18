@@ -5,6 +5,7 @@ import { Download, Utensils, UtensilsCrossed, Flame, Coffee, Info, Plus } from "
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useCartStore } from "@/lib/store/useCartStore";
 
 // Categorized Menu Data (Based on scraped authentic data)
 const menuCategories = [
@@ -87,7 +88,8 @@ const menuCategories = [
 ];
 
 export default function MenuPage() {
-    const [activeCategory, setActiveCategory] = useState("starters");
+    const { addItem } = useCartStore();
+    const [activeCategory, setActiveCategory] = useState(menuCategories[0].id);
 
     useEffect(() => {
         const observerOptions = {
@@ -251,6 +253,13 @@ export default function MenuPage() {
 
                                             {/* Circular Add Button */}
                                             <button
+                                                onClick={() => addItem({
+                                                    id: `${category.id}-${itemIdx}`,
+                                                    name: item.name,
+                                                    price: item.price,
+                                                    quantity: 1,
+                                                    description: item.description
+                                                })}
                                                 className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center text-white/50 bg-white/5 hover:bg-electric-yellow hover:text-black hover:border-electric-yellow transition-all duration-300 group/btn shadow-lg"
                                                 aria-label={`Add ${item.name} to order`}
                                             >
