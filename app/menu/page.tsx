@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Download, Utensils, UtensilsCrossed, Flame, Coffee, Info, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Categorized Menu Data (Based on scraped authentic data)
 const menuCategories = [
@@ -89,6 +89,29 @@ const menuCategories = [
 export default function MenuPage() {
     const [activeCategory, setActiveCategory] = useState("starters");
 
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-150px 0px -70% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveCategory(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+        menuCategories.forEach((category) => {
+            const element = document.getElementById(category.id);
+            if (element) observer.observe(element);
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <main className="bg-matte-black min-h-screen pt-24 pb-24">
 
@@ -123,7 +146,7 @@ export default function MenuPage() {
             </section>
 
             {/* Sticky Navigation */}
-            <div className="sticky top-20 z-40 bg-matte-black/70 backdrop-blur-md border-y border-white/5 py-4 mb-12 shadow-2xl">
+            <div className="sticky top-[104px] md:top-[120px] z-40 bg-matte-black/70 backdrop-blur-md border-y border-white/5 py-4 mb-12 shadow-2xl">
                 <div className="container mx-auto px-6 overflow-x-auto no-scrollbar">
                     <div className="flex items-center gap-4 md:gap-8 min-w-max">
                         {menuCategories.map((category) => (
@@ -156,7 +179,7 @@ export default function MenuPage() {
             {/* Menu Content */}
             <div className="container mx-auto px-4 md:px-6 space-y-24">
                 {menuCategories.map((category, idx) => (
-                    <section key={category.id} id={category.id} className="scroll-mt-40">
+                    <section key={category.id} id={category.id} className="scroll-mt-52 md:scroll-mt-64">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
